@@ -39,6 +39,23 @@ body("password").isLength({min:8}),
     return res.status(200).send("your account is created successfully")
 })
 
+app.post("/login", async (req,res)=>{
+    const userData=req.body
+    const matchData= await userModel.findOne({email:userData.email, password:userData.password})
+    if (!matchData){
+        return res.status(401).send("Invalid email or password")
+    }
+    const mainToken=jwt.sign({email:matchData.email, role:matchData.role}, "SECRETKEY009", {
+        expiresIn:"10 seconds"
+    })
+    const refreshToken=jwt.sign({email:matchData.email, role:matchData.role}, "SECRETKEY0099", {
+        expiresIn:"10 minutes"
+    })
+    res.send({mainToken:mainToken, refreshToken:refreshToken})
+    res.send("Sucessfully logged in")
+    
+})
+
 app.listen(8080, async()=>{
     await mongoose.connect("mongodb://127.0.0.1:27017/blogslog")
     console.log('server started on port 8080')})
