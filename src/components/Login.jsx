@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Drawer,
     DrawerBody,
@@ -23,10 +23,21 @@ import {
   } from '@chakra-ui/react'
 
   import {EmailIcon, UnlockIcon} from "@chakra-ui/icons"
+  const initform={
+    email:"",
+    password:""
+  }
 
 function Login() {
+    const [loginForm, setLoginForm]=useState(initform)
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
+
+    let handleLoginFrom=(e)=>{
+        let {name, value}=e.target
+        setLoginForm({...loginForm, [name]:value})
+    }
   
     return (
       <>
@@ -46,19 +57,19 @@ function Login() {
             <DrawerHeader>Login here </DrawerHeader>
   
             <DrawerBody >
-              <form>
+              <form onSubmit={()=>{}}>
               <FormControl isRequired>
                 <FormLabel>Email address</FormLabel>
                 <InputGroup>
                 <InputLeftAddon children=<EmailIcon/> />
-                 <Input type='email' placeholder='Email Address' />
+                 <Input type='email' name="email" placeholder='Email Address' onChange={handleLoginFrom}/>
                 </InputGroup>
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
                 <InputLeftAddon children=<UnlockIcon/> />
-                 <Input type='password' placeholder='Password' />
+                 <Input type='password' name="password" placeholder='Password' onChange={handleLoginFrom}/>
                 </InputGroup>
               </FormControl>
               <Input type="submit" bgColor="primary" _hover={{color:"secondary",bgColor:"baseColor"}} mt="20px"/>

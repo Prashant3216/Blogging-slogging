@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Drawer,
     DrawerBody,
@@ -25,10 +25,30 @@ import {
   } from '@chakra-ui/react'
 
   import {EmailIcon, LockIcon} from "@chakra-ui/icons"
+  
+  
+  const initform={
+    firstName: "",
+    lastName:"",
+    age:"",
+    gender:"",
+    email:"",
+    password:""
+  }
+
 
 function Register() {
+  const [signupForm, setSignupForm]=useState(initform)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
+
+    let handleSignupFrom=(e)=>{
+      let {name, value}=e.target
+      setSignupForm({...signupForm, [name]:value})
+    }
+  //   useEffect(()=>{
+  //  console.log(signupForm)
+  //   }, [signupForm])
   
     return (
       <>
@@ -52,25 +72,25 @@ function Register() {
               <Flex gap="5%">
               <FormControl isRequired>
                 <FormLabel>First Name</FormLabel>
-                 <Input type='text' placeholder='First Name' />
+                 <Input type='text' placeholder='First Name' name="firstName" onChange={handleSignupFrom}/>
               </FormControl>
               <FormControl >
                 <FormLabel>Last Name</FormLabel>
-                 <Input type='text' placeholder='Last Name' />
+                 <Input type='text' placeholder='Last Name' name="lastName" onChange={handleSignupFrom}/>
               </FormControl>
               </Flex>
               <Flex gap="5%" align="normal">
               <FormControl isRequired>
                 <FormLabel>age</FormLabel>
-                 <Input type='Number' placeholder='Age' />
+                 <Input type='Number' placeholder='Age' name="age" onChange={handleSignupFrom} />
               </FormControl>
               <FormControl isRequired>
               <FormLabel>Gender</FormLabel>
-              <Select placeholder='Gender'>
-                <option value='option1'>male</option>
-                <option value='option2'>female</option>
-                <option value='option3'>other</option>
-                <option value='option3'>opt out</option>
+              <Select placeholder='Gender' name="gender" onChange={handleSignupFrom}>
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
+                <option value='other'>Other</option>
+                <option value='opt out'>Opt Out</option>
               </Select>
               </FormControl>
               </Flex>
@@ -78,14 +98,14 @@ function Register() {
                 <FormLabel>Email address</FormLabel>
                 <InputGroup>
                 <InputLeftAddon children=<EmailIcon/> />
-                 <Input type='email' placeholder='Email Address' />
+                 <Input type='email' placeholder='Email Address' name="email" onChange={handleSignupFrom}/>
                 </InputGroup>
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Create Password</FormLabel>
                 <InputGroup>
                 <InputLeftAddon children=<LockIcon/> />
-                 <Input type='password' placeholder='Create Password' />
+                 <Input type='password' placeholder='Create Password' name="password" onChange={handleSignupFrom}/>
                 </InputGroup>
               </FormControl>
               <FormControl isRequired>
